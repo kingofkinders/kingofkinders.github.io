@@ -3,151 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Coding Journey</title>
+    <title>King of Kinders - Creative Coding Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
+        * {
             margin: 0;
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container {
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            background: white;
-            padding: 2em;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            padding: 20px;
+            margin-top: 50px;
         }
+
         h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.5em;
+            font-size: 2em;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
         }
-        p {
+
+        .game-container {
+            width: 800px;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player {
+            width: 30px;
+            height: 30px;
+            background: #00ff00;
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.1s ease;
+        }
+
+        .target {
+            width: 20px;
+            height: 20px;
+            background: #ff0000;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .score {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #00ff00;
             font-size: 1.2em;
-            margin-bottom: 1em;
         }
+
         .btn {
             display: inline-block;
-            margin-top: 1em;
-            padding: 0.8em 1.5em;
-            font-size: 1em;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            background: #00ff00;
+            color: #000;
             text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .footer {
-            margin-top: 2em;
-            font-size: 0.9em;
-            color: #666;
-        }
-        .game-container {
-            width: 600px;
-            height: 200px;
-            background: #f4f4f4;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid #ccc;
             border-radius: 5px;
+            transition: all 0.3s ease;
         }
-        .dino {
-            width: 40px;
-            height: 40px;
-            background: #333;
-            position: absolute;
-            bottom: 0;
-            left: 20px;
+
+        .btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.1);
         }
-        .obstacle {
-            width: 20px;
-            height: 40px;
-            background: #333;
-            position: absolute;
-            bottom: 0;
-            right: 0;
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+            }
+            to {
+                text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
         }
+
+        .instructions {
+            color: #00ff00;
+            font-size: 0.8em;
+            margin: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            color: #00ff00;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to My Coding Journey</h1>
-        <p>Hi! I'm a young coder excited to learn and share my projects with the world. Join me on my journey!</p>
-        <a href="https://github.com/kingofkinders" class="btn">Visit My GitHub</a>
-        <div class="footer">
-            © 2025 King of Kinders. All rights reserved.
+    <div id="particles-js"></div>
+    <div class="content">
+        <h1>Welcome to My Creative Space</h1>
+        <div class="instructions">
+            Use WASD or Arrow Keys to move | Collect red dots | Avoid walls
         </div>
+        <div class="game-container" id="gameContainer">
+            <div class="player" id="player"></div>
+            <div class="target" id="target"></div>
+            <div class="score">Score: <span id="scoreValue">0</span></div>
+        </div>
+        <div class="stats">
+            <div>High Score: <span id="highScore">0</span></div>
+            <div>Time: <span id="timeElapsed">0</span>s</div>
+        </div>
+        <a href="https://github.com/kingofkinders" class="btn">Visit My GitHub</a>
     </div>
 
-    <div class="game-container" id="game">
-        <div class="dino" id="dino"></div>
-        <div class="obstacle" id="obstacle"></div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        const dino = document.getElementById('dino');
-        const obstacle = document.getElementById('obstacle');
-        let isJumping = false;
-        let dinoBottom = 0;
-        let gravity = 0.9;
-        let gameOver = false;
-
-        function jump() {
-            if (isJumping) return;
-            let jumpInterval = setInterval(() => {
-                if (dinoBottom >= 150) {
-                    clearInterval(jumpInterval);
-                    let fallInterval = setInterval(() => {
-                        if (dinoBottom <= 0) {
-                            clearInterval(fallInterval);
-                            isJumping = false;
-                        }
-                        dinoBottom -= 5;
-                        dino.style.bottom = dinoBottom + 'px';
-                    }, 20);
+        // Particle.js configuration
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#00ff00" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#00ff00", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: "none", random: false, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
                 }
-                isJumping = true;
-                dinoBottom += 30;
-                dino.style.bottom = dinoBottom + 'px';
-            }, 20);
-        }
-
-        document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space') {
-                jump();
             }
         });
 
-        function startGame() {
-            obstacle.style.right = '-20px';
-            let obstaclePosition = 600;
-            let gameInterval = setInterval(() => {
-                if (obstaclePosition <= 40 && obstaclePosition >= 20 && dinoBottom <= 40) {
-                    clearInterval(gameInterval);
-                    alert('Game Over');
-                    gameOver = true;
-                }
-                obstaclePosition -= 10;
-                obstacle.style.right = obstaclePosition + 'px';
-                if (obstaclePosition <= 0) {
-                    obstaclePosition = 600;
-                }
-            }, 20);
+        // Game Logic
+        const player = document.getElementById('player');
+        const target = document.getElementById('target');
+        const gameContainer = document.getElementById('gameContainer');
+        const scoreElement = document.getElementById('scoreValue');
+        const highScoreElement = document.getElementById('highScore');
+        const timeElement = document.getElementById('timeElapsed');
+
+        let score = 0;
+        let highScore = localStorage.getItem('highScore') || 0;
+        let startTime = Date.now();
+        let gameLoop;
+
+        // Player position and movement
+        let playerPos = { x: 385, y: 185 };
+        let playerSpeed = 5;
+        let keys = {};
+
+        // Initial player position
+        updatePlayerPosition();
+
+        // Generate random target position
+        function moveTarget() {
+            const maxX = gameContainer.clientWidth - target.clientWidth;
+            const maxY = gameContainer.clientHeight - target.clientHeight;
+            target.style.left = Math.random() * maxX + 'px';
+            target.style.top = Math.random() * maxY + 'px';
         }
 
-        if (!gameOver) {
-            startGame();
+        // Update player position
+        function updatePlayerPosition() {
+            player.style.left = playerPos.x + 'px';
+            player.style.top = playerPos.y + 'px';
         }
+
+        // Check collision
+        function checkCollision() {
+            const playerRect = player.getBoundingClientRect();
+            const targetRect = target.getBoundingClientRect();
+
+            return !(playerRect.right < targetRect.left || 
+                    playerRect.left > targetRect.right || 
+                    playerRect.bottom < targetRect.top || 
+                    playerRect.top > targetRect.bottom);
+        }
+
+        // Game loop
+        function gameUpdate() {
+            // Move player
+            if (keys['ArrowLeft'] || keys['a']) playerPos.x -= playerSpeed;
+            if (keys['ArrowRight'] || keys['d']) playerPos.x += playerSpeed;
+            if (keys['ArrowUp'] || keys['w']) playerPos.y -= playerSpeed;
+            if (keys['ArrowDown'] || keys['s']) playerPos.y += playerSpeed;
+
+            // Keep player in bounds
+            playerPos.x = Math.max(0, Math.min(playerPos.x, gameContainer.clientWidth - player.clientWidth));
+            playerPos.y = Math.max(0, Math.min(playerPos.y, gameContainer.clientHeight - player.clientHeight));
+
+            updatePlayerPosition();
+
+            // Check collision with target
+            if (checkCollision()) {
+                score++;
+                scoreElement.textContent = score;
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('highScore', highScore);
+                    highScoreElement.textContent = highScore;
+                }
+                moveTarget();
+            }
+
+            // Update time
+            const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
+            timeElement.textContent = timeElapsed;
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+
+        // Initialize game
+        highScoreElement.textContent = highScore;
+        moveTarget();
+        gameLoop = setInterval(gameUpdate, 1000/60);
     </script>
 </body>
 </html>
