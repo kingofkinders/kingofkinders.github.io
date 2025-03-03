@@ -10,6 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
             background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
@@ -21,6 +22,7 @@
             padding: 2em;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
         h1 {
             font-size: 2.5em;
@@ -50,6 +52,31 @@
             font-size: 0.9em;
             color: #666;
         }
+        .game-container {
+            width: 600px;
+            height: 200px;
+            background: #f4f4f4;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .dino {
+            width: 40px;
+            height: 40px;
+            background: #333;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+        }
+        .obstacle {
+            width: 20px;
+            height: 40px;
+            background: #333;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
     </style>
 </head>
 <body>
@@ -61,5 +88,66 @@
             © 2025 King of Kinders. All rights reserved.
         </div>
     </div>
+
+    <div class="game-container" id="game">
+        <div class="dino" id="dino"></div>
+        <div class="obstacle" id="obstacle"></div>
+    </div>
+
+    <script>
+        const dino = document.getElementById('dino');
+        const obstacle = document.getElementById('obstacle');
+        let isJumping = false;
+        let dinoBottom = 0;
+        let gravity = 0.9;
+        let gameOver = false;
+
+        function jump() {
+            if (isJumping) return;
+            let jumpInterval = setInterval(() => {
+                if (dinoBottom >= 150) {
+                    clearInterval(jumpInterval);
+                    let fallInterval = setInterval(() => {
+                        if (dinoBottom <= 0) {
+                            clearInterval(fallInterval);
+                            isJumping = false;
+                        }
+                        dinoBottom -= 5;
+                        dino.style.bottom = dinoBottom + 'px';
+                    }, 20);
+                }
+                isJumping = true;
+                dinoBottom += 30;
+                dino.style.bottom = dinoBottom + 'px';
+            }, 20);
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                jump();
+            }
+        });
+
+        function startGame() {
+            obstacle.style.right = '-20px';
+            let obstaclePosition = 600;
+            let gameInterval = setInterval(() => {
+                if (obstaclePosition <= 40 && obstaclePosition >= 20 && dinoBottom <= 40) {
+                    clearInterval(gameInterval);
+                    alert('Game Over');
+                    gameOver = true;
+                }
+                obstaclePosition -= 10;
+                obstacle.style.right = obstaclePosition + 'px';
+                if (obstaclePosition <= 0) {
+                    obstaclePosition = 600;
+                }
+            }, 20);
+        }
+
+        if (!gameOver) {
+            startGame();
+        }
+    </script>
 </body>
 </html>
