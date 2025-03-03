@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>King of Kinders - Creative Coding Journey</title>
+    <title>kingofkinders - Creative Coding Journey</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Theme */
             --light-bg: #ffffff;
             --light-text: #000000;
             --light-primary: #4CAF50;
             --light-secondary: #2196F3;
             --light-accent: #FF4081;
             
-            /* Dark Theme */
             --dark-bg: #000000;
             --dark-text: #ffffff;
             --dark-primary: #00ff00;
@@ -202,6 +200,42 @@
             margin: 20px auto;
         }
 
+        .announcements {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        .announcement-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            font-size: 0.8em;
+        }
+
+        .light-theme .announcement-container {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--light-text);
+        }
+
+        .dark-theme .announcement-container {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--dark-text);
+        }
+
+        .announcement {
+            margin-bottom: 5px;
+        }
+
+        .copyright {
+            font-weight: bold;
+        }
+
         @media (max-width: 850px) {
             .game-container {
                 width: 95%;
@@ -214,6 +248,11 @@
             
             .instructions {
                 font-size: 0.6em;
+            }
+
+            .announcement-container {
+                font-size: 0.7em;
+                padding: 10px;
             }
         }
     </style>
@@ -253,6 +292,21 @@
         <a href="https://github.com/kingofkinders" class="btn" data-en="Visit My GitHub" data-zh="访问我的GitHub">
             Visit My GitHub
         </a>
+
+        <div class="announcements">
+            <div class="announcement-container">
+                <div class="announcement">
+                    <span data-en="Last Updated: " data-zh="最后更新：">Last Updated: </span>
+                    <span>2025-03-03 06:38:17 UTC</span>
+                </div>
+                <div class="copyright">
+                    <span data-en="© 2025 kingofkinders. All rights reserved." 
+                          data-zh="© 2025 kingofkinders. 保留所有权利。">
+                        © 2025 kingofkinders. All rights reserved.
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
